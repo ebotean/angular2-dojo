@@ -1,0 +1,27 @@
+<p>
+    Component Playlists
+</p>
+<app-pesquisa-playlist></app-pesquisa-playlist>
+<div class="row">
+    <div class="col-md-12">
+      
+        <table>
+            <tr>
+                <th>Música</th>
+                <th>Artista</th>
+                <th>
+                    <input type="checkbox" name="musicaCheckbox" (change)="selecionarMusica()" />
+                </th>
+            </tr>
+
+            <tr *ngFor="let musica of musicasPlaylist">
+
+                <td>{{musica.nome}}</td>
+                <td>{{musica.artista.nome }}</td>
+                <td>
+                    <input type="checkbox" name="musicaCheckbox" (change)="selecionarMusica(musica)">
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

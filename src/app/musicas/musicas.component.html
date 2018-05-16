@@ -1,0 +1,26 @@
+<p>
+    Component Musicas
+</p>
+<app-pesquisa-musica></app-pesquisa-musica>
+<div class="row">
+    <div class="col-md-12">
+        <table>
+            <tr>
+                <th>Música</th>
+                <th>Artista</th>
+                <th>
+                    <input type="checkbox" name="musicaCheckbox" (change)="selecionarMusica()" />
+                </th>
+            </tr>
+
+            <tr *ngFor="let musica of listaMusicas">
+
+                <td>{{musica.nome}}</td>
+                <td>{{musica.artista.nome }}</td>
+                <td>
+                    <input #mscSelecionada type="checkbox" name="musicaCheckbox" (change)="selecionarMusica(musica)" [checked]="this.musicasSelecionadas.indexOf(musica.id) >= 0">
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
