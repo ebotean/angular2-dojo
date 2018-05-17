@@ -1,4 +1,12 @@
+h1 {
+	padding: 30px;
+}
+
 .home-body {
-    margin-top: 30px;
     margin-bottom: 30px;
+}
+
+.component-container {
+	border: solid 1px black;
+	border-radius: 15px;
 }

@@ -1,26 +1,25 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
-
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Musica } from '../shared/models/musica.model';
+import { Playlist } from '../shared/models/playlist.model';
 
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist.component.html',
   styleUrls: ['./playlist.component.css']
 })
-export class PlaylistComponent implements OnInit {
-
+export class PlaylistComponent {
   @Input() musicasPlaylist: Array<any> = new Array<any>();
-  @Output() removido: EventEmitter<any> = new EventEmitter<any>()
+  @Output() searchUpdated: EventEmitter<Playlist> = new EventEmitter<Playlist>();
+  @Output() enqueued: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() { }
+  public rebounceEvent(playlist: Playlist) {
 
-  ngOnInit() {
-  
+  	this.searchUpdated.emit(playlist);
   }
 
-  public selecionarMusica(musica:any) {
-    console.log(musica);
-    this.removido.emit(musica);
+  public enqueueDeletion(musica:any) {
+
+    this.enqueued.emit(musica);
   }
 
 }

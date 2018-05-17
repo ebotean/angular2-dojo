@@ -1,27 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { MusicaService }  from '../musicas.service'
+import { Component, Output, EventEmitter } from '@angular/core';
+import { Musica }  from '../shared/models/musica.model';
+import { MusicService }  from '../shared/music.service';
+
+
 @Component({
   selector: 'app-pesquisa-musica',
   templateUrl: './pesquisa-musica.component.html',
   styleUrls: ['./pesquisa-musica.component.css']
 })
-export class PesquisaMusicaComponent implements OnInit {
+export class PesquisaMusicaComponent {
 
-  constructor(private musicaService: MusicaService) { }
+  @Output() onUpdateSearch: EventEmitter<Musica[]> = new EventEmitter<Musica[]>();
 
-  ngOnInit() {
-  }
+  constructor(private musicService: MusicService) { }
 
-  public "nome-musica": string = null;
+  buscaMusica(filtro: string) {
+    if (filtro.length <= 3)
+      return;
 
-  public pesquisar(nomeMusica: string) {
-    if (nomeMusica.length > 3) {
-      console.log(nomeMusica);
-      this.musicaService.getMusicas(nomeMusica)
-        .then((result: any) => {
-        console.log(result.json());
-      });
-    }
+    this.musicService.getMusicas(filtro)
+        .subscribe(
+          (data: Musica[]) => this.onUpdateSearch.emit(data),
+          err => console.error(err)
+        );
   }
 
 }

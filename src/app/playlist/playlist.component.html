@@ -1,11 +1,10 @@
-<p>
-    Component Playlists
-</p>
-<app-pesquisa-playlist></app-pesquisa-playlist>
+<h2 class="text-center">Playlist</h2>
+
+<app-pesquisa-playlist (onUpdateSearch)="rebounceEvent($event)"></app-pesquisa-playlist>
 <div class="row">
     <div class="col-md-12">
       
-        <table>
+        <table class="table table-bordered table-striped">
             <tr>
                 <th>Música</th>
                 <th>Artista</th>
@@ -19,7 +18,7 @@
                 <td>{{musica.nome}}</td>
                 <td>{{musica.artista.nome }}</td>
                 <td>
-                    <input type="checkbox" name="musicaCheckbox" (change)="selecionarMusica(musica)">
+                    <input type="radio" name="musicaRadio" value="musica.id" (change)="enqueueDeletion(musica)"/>
                 </td>
             </tr>
         </table>

@@ -1,28 +1,26 @@
 <div class="container home-body">
-  <p>
-    My Music
-  </p>
+  <h1 class="text-center">My Music App</h1>
 
   <div class="row">
-    <div class="col-md-5" style="border: solid 2px black">
-      <app-musicas [listaMusicas]="musicas" (adicionado)="atualizarPlaylist($event)"></app-musicas>
+    <div class="col-md-5 component-container">
+      <app-musicas [listaMusicas]="musicas" [addedSongs]="musicasPlaylist" (adicionado)="atualizarPlaylist($event)"></app-musicas>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-2 text-center">
       <div class="row">
         <div class="col-md-12" style="margin-top: 200px">
-          <button style="width: 90px" (click)="criaPlaylist()" >Adicionar</button>
+          <button class="btn btn-success action-btn" (click)="addSongToPlaylist()" >Adicionar</button>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12" style="margin-top: 20px">
-          <button style="width: 90px" (click)="removerMusicas()" >Remover</button>
+          <button class="btn btn-danger action-btn" (click)="removerMusicas()" >Remover</button>
         </div>
       </div>
     </div>
 
-    <div class="col-md-5" style="border: solid 2px black">
-      <app-playlist [musicasPlaylist]="musicasPlaylist" (removido)="marcaMusicaRemocao($event)"></app-playlist>
+    <div class="col-md-5 component-container">
+      <app-playlist [musicasPlaylist]="musicasPlaylist" (enqueued)="updateEnqueuedDeletion($event)" (searchUpdated)="loadPlaylist($event)"></app-playlist>
     </div>
   </div>
 

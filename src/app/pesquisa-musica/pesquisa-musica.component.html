@@ -1,10 +1,11 @@
 <div class="row">
   <div class="col-md-12">
-    <form>
-      <p>Pesquisa</p>
-      <input name="nomeMusica" type="text" class="form-group" ngModel (input)="pesquisar($event.target.value)" />
-
-    </form>
+    <div class="input-group mb-2 mr-sm-2 pesquisa-input">
+	    <div class="input-group-prepend">
+	      <div class="input-group-text"><img src="assets/images/magnifying-glass-2x.png" class="iconic-sprite" aria-hidden="true" /></div>
+	    </div>
+	    <input name="nomeMusica" type="text" class="form-control" id="inlineFormInputGroupMusica" placeholder="Música" ngModel (input)="buscaMusica($event.target.value)">
+  	</div>
   </div>
 
 </div>

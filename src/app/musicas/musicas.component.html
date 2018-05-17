@@ -1,10 +1,10 @@
-<p>
-    Component Musicas
-</p>
-<app-pesquisa-musica></app-pesquisa-musica>
+<h2 class="text-center">Músicas</h2>
+
+<app-pesquisa-musica (onUpdateSearch)="updateSongs($event)"></app-pesquisa-musica>
+
 <div class="row">
     <div class="col-md-12">
-        <table>
+        <table class="table table-bordered table-striped">
             <tr>
                 <th>Música</th>
                 <th>Artista</th>
@@ -14,11 +14,10 @@
             </tr>
 
             <tr *ngFor="let musica of listaMusicas">
-
                 <td>{{musica.nome}}</td>
                 <td>{{musica.artista.nome }}</td>
                 <td>
-                    <input #mscSelecionada type="checkbox" name="musicaCheckbox" (change)="selecionarMusica(musica)" [checked]="this.musicasSelecionadas.indexOf(musica.id) >= 0">
+                    <input type="checkbox" name="musicaCheckbox" (change)="selecionarMusica(musica)" [checked]="addedSongs.indexOf(musica) >= 0" [disabled]="addedSongs.indexOf(musica) >= 0">
                 </td>
             </tr>
         </table>

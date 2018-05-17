@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MusicaService } from '../musicas.service';
-
+import { MusicService } from '../shared/music.service';
+import { Musica } from '../shared/models/musica.model';
+import { Playlist } from '../shared/models/playlist.model';
+import { ToastrService } from '../shared/toastr.service';
 
 import { Observable } from 'rxjs/Rx';
 
@@ -12,70 +15,84 @@ import { Observable } from 'rxjs/Rx';
 })
 export class HomeComponent implements OnInit {
 
-  musicas: any;
-  musicasPlaylist: Array<any> = new Array<any>();
-  musicasSelecionadas: Array<any> = new Array<any>();
-  musicasSelecionadasRemocao: Array<any> = new Array<any>();
+  musicas: Musica[];
+  musicasPlaylist: Array<Musica> = new Array<Musica>();
+  selectedSongs: Array<Musica> = new Array<Musica>();
+  enqueuedDeletion: Musica;
 
-  constructor(private musicaService: MusicaService) { }
+  constructor(private toastr: ToastrService, private musicService: MusicService) { }
 
 
   ngOnInit() {
-    this.musicaService.getMusicas('bruno')
-      .then((result: any) => {
-        this.musicas = result.json();
-      });
+
+    this.musicService.getMusicas('bruno')
+        .subscribe( (data) => this.musicas = data );
   }
 
-  public atualizarPlaylist(musica: any) {
-    if (musica == null) {
-      if (this.musicasSelecionadas.length > 0) {
-        this.musicasSelecionadas = [];
-      } else {
-        this.musicas.forEach(element => {
-          this.musicasSelecionadas.push(element);
-        });
-      }
+  loadPlaylist(playlist: Playlist) {
+    console.log(playlist);
+    this.musicasPlaylist = this.fetchSongsFromPlaylist(playlist.playlistMusicas);
+    this.selectedSongs = [];
+  }
 
-    } else {
-      let index = this.musicasSelecionadas.indexOf(musica)
-      if (index < 0) {
-        this.musicasSelecionadas.push(musica);
-      } else {
-        this.musicasSelecionadas.splice(index, 1)
-      }
+  public atualizarPlaylist(musica: Musica): void {
+
+    let index = this.selectedSongs.indexOf(musica);
+    if (index < 0) {
+      this.selectedSongs.push(musica);
+      console.log(this.selectedSongs);
+      return;
     }
-    console.log(this.musicasSelecionadas);
+    this.selectedSongs.splice(index, 1);
+    
+    console.log(this.selectedSongs);
   }
 
-  criaPlaylist() {
+  addSongToPlaylist() {
 
-
-    this.musicasPlaylist = this.musicasSelecionadas;
-    this.musicaService.putPlayList([])
-      .toPromise().then((resposta: any) => {
-        if (resposta.status == "200") {
-            
-        }
-      })
+    if (this.selectedSongs.length > 0)
+      this.toastr.success("Acabamos de adicionar "+this.selectedSongs.length+" música(s) à sua playlist.", "Adicionando músicas");
+    else
+      this.toastr.warning("A música desejada não foi selecionada ou já se encontra na playlist.", "Adicionando músicas");
+    this.safelyAddSongsToPlaylist();
+    this.musicService.putPlaylist();
+    this.selectedSongs = [];
   }
 
   removerMusicas() {
-    this.musicasSelecionadasRemocao.forEach((musica) => {
-      let index = this.musicasPlaylist.indexOf(musica);
-      if (index >= 0) {
-        this.musicasPlaylist.splice(index, 1);
-      }
-    })
+    
+    if (!this.enqueuedDeletion)
+      return;
+    let index = this.musicasPlaylist.indexOf(this.enqueuedDeletion);
+    
+    if (index >= 0)
+      this.musicasPlaylist.splice(index, 1);
 
+    this.enqueuedDeletion = undefined;
   }
 
-  public marcaMusicaRemocao(musica: any) {
-    let index = this.musicasSelecionadasRemocao.indexOf(musica);
-    if (index >= 0) {
-      this.musicasSelecionadasRemocao.splice(index, 1);
-    } else {
-      this.musicasSelecionadasRemocao.push(musica);
-    }
+  private updateEnqueuedDeletion(musica: Musica) {
+    
+    if (!musica)
+      return;
+    this.enqueuedDeletion = musica;
+  }
+
+  private safelyAddSongsToPlaylist() {
+    // VERIFICAR SE MUSICA EXISTE NA PLAYLIST
+    // SE SIM => PULAR
+    // SE NAO => ADD
+    this.selectedSongs.forEach((musica: Musica) => {
+      if (this.musicasPlaylist.indexOf(musica) < 0)
+        this.musicasPlaylist.push(musica);
+    });
+  }
+
+  private fetchSongsFromPlaylist(playlistSongs: Musica[]) {
+    let ret: Musica[] = [];
+    playlistSongs.forEach(data => {
+      ret.push(data.musica);
+    })
+    return ret;
   }
 }

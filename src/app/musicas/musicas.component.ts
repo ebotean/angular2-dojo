@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Musica } from '../shared/models/musica.model';
 
 
 @Component({
@@ -8,20 +8,21 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./musicas.component.css']
 })
 
-export class MusicasComponent implements OnInit {
+export class MusicasComponent {
   
   musicasSelecionadas: Array<any> = new Array<any>()
   @Input() listaMusicas: Array<any> = new Array<any>();
+  @Input() addedSongs: Array<Musica> = new Array<Musica>();
   @Output() adicionado: EventEmitter<any> = new EventEmitter<any>()
-
-  constructor() { }
-
-  ngOnInit() {
-    
-  }
 
   public selecionarMusica(musica: any) {
 
     this.adicionado.emit(musica);
+  }
+
+  updateSongs(listaMusicas: Musica[]): void {
+  	console.log("updating songs");
+  	if (event)
+  		this.listaMusicas = listaMusicas;
   }
 }
