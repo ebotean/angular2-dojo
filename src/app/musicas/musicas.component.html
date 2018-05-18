@@ -8,16 +8,18 @@
             <tr>
                 <th>Música</th>
                 <th>Artista</th>
-                <th>
-                    <input type="checkbox" name="musicaCheckbox" (change)="selecionarMusica()" />
-                </th>
+                <th></th>
             </tr>
 
             <tr *ngFor="let musica of listaMusicas">
-                <td>{{musica.nome}}</td>
-                <td>{{musica.artista.nome }}</td>
+                <td>{{ musica.nome }}</td>
+                <td>{{ musica.artista.nome }}</td>
                 <td>
-                    <input type="checkbox" name="musicaCheckbox" (change)="selecionarMusica(musica)" [checked]="addedSongs.indexOf(musica) >= 0" [disabled]="addedSongs.indexOf(musica) >= 0">
+                    <input type="checkbox" 
+                        name="musicaCheckbox" 
+                        (change)="selecionarMusica(musica)" 
+                        [checked]="addedSongs.indexOf(musica) >= 0" 
+                        [disabled]="addedSongs.indexOf(musica) >= 0" />
                 </td>
             </tr>
         </table>

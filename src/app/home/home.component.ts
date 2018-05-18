@@ -45,12 +45,9 @@ export class HomeComponent implements OnInit {
     let index = this.selectedSongs.indexOf(musica);
     if (index < 0) {
       this.selectedSongs.push(musica);
-      console.log(this.selectedSongs);
       return;
     }
     this.selectedSongs.splice(index, 1);
-    
-    console.log(this.selectedSongs);
   }
 
   addSongToPlaylist() {
@@ -78,6 +75,7 @@ export class HomeComponent implements OnInit {
       this.musicService.deleteFromPlaylist(this.playlist.id, this.enqueuedDeletion.id)
           .subscribe((data:any) => {
             console.log("Delete status: ",data.status)
+            this.toastr.error("A música selecionada foi removida da sua playlist.", "Remoção de música");
           });
     }
 

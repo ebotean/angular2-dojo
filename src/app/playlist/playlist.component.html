@@ -8,17 +8,18 @@
             <tr>
                 <th>Música</th>
                 <th>Artista</th>
-                <th>
-                    <input type="checkbox" name="musicaCheckbox" (change)="selecionarMusica()" />
-                </th>
+                <th></th>
             </tr>
 
             <tr *ngFor="let musica of musicasPlaylist">
 
-                <td>{{musica.nome}}</td>
-                <td>{{musica.artista.nome }}</td>
+                <td>{{ musica.nome }}</td>
+                <td>{{ musica.artista.nome }}</td>
                 <td>
-                    <input type="radio" name="musicaRadio" value="musica.id" (change)="enqueueDeletion(musica)"/>
+                    <input type="radio" 
+                        name="musicaRadio" 
+                        value="musica.id" 
+                        (change)="enqueueDeletion(musica)" />
                 </td>
             </tr>
         </table>

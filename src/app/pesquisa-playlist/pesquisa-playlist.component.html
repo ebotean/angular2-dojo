@@ -2,11 +2,20 @@
     <div class="col-md-12">
 	    <div class="input-group mb-2 mr-sm-2 pesquisa-input">
 		    <div class="input-group-prepend">
-		      	<div class="input-group-text"><img src="assets/images/magnifying-glass-2x.png" class="iconic-sprite" aria-hidden="true" /></div>
+		      	<div class="input-group-text">
+		      		<img src="assets/images/magnifying-glass-2x.png" 
+		      			class="iconic-sprite" 
+		      			aria-hidden="true" />
+		      	</div>
 		    </div>
-		    <input name="nomeUsuario" type="text" class="form-control" id="inlineFormInputGroupUsuario" placeholder="Nome de usuário" ngModel (keyup.enter)="pesquisar($event.target.value)">
+		    <input id="inlineFormInputGroupUsuario" 
+		    	class="form-control" 
+		    	type="text" 
+		    	name="nomeUsuario" 
+		    	placeholder="Nome de usuário" 
+		    	(keyup.enter)="pesquisar($event.target.value)"
+		    	ngModel />
 	  	</div>
-  </div>
-
+  	</div>
 </div>
   
