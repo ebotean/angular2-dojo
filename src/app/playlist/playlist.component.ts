@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Musica } from '../shared/models/musica.model';
-import { Playlist } from '../shared/models/playlist.model';
 
 @Component({
   selector: 'app-playlist',
@@ -9,12 +8,12 @@ import { Playlist } from '../shared/models/playlist.model';
 })
 export class PlaylistComponent {
   @Input() musicasPlaylist: Array<any> = new Array<any>();
-  @Output() searchUpdated: EventEmitter<Playlist> = new EventEmitter<Playlist>();
+  @Output() searchUpdated: EventEmitter<string> = new EventEmitter<string>();
   @Output() enqueued: EventEmitter<any> = new EventEmitter<any>();
 
-  public rebounceEvent(playlist: Playlist) {
+  public rebounceEvent(nomeUsuario: string) {
 
-  	this.searchUpdated.emit(playlist);
+  	this.searchUpdated.emit(nomeUsuario);
   }
 
   public enqueueDeletion(musica:any) {

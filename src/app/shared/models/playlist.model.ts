@@ -1,10 +1,14 @@
 import { Musica } from './musica.model';
+import { Guid } from 'guid-typescript';
 
 export class Playlist {
-	playlistId: string;
+	id: string;
 	playlistMusicas: Musica[];
-	musicaId: string;
-	musica: Musica;
+
+	constructor(id: string = Guid.create().toString(), playlistMusicas: Musica[] = []) {
+		this.id = id;
+		this.playlistMusicas = playlistMusicas;
+	}
 
 	deserialize(input: any) {
 		Object.assign(this, input);

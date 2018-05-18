@@ -16,6 +16,7 @@ import { Observable } from 'rxjs/Rx';
 export class HomeComponent implements OnInit {
 
   musicas: Musica[];
+  playlist: Playlist = new Playlist();
   musicasPlaylist: Array<Musica> = new Array<Musica>();
   selectedSongs: Array<Musica> = new Array<Musica>();
   enqueuedDeletion: Musica;
@@ -29,9 +30,13 @@ export class HomeComponent implements OnInit {
         .subscribe( (data) => this.musicas = data );
   }
 
-  loadPlaylist(playlist: Playlist) {
-    console.log(playlist);
-    this.musicasPlaylist = this.fetchSongsFromPlaylist(playlist.playlistMusicas);
+  loadPlaylist(nomeUsuario: string) {
+
+    this.musicService.getPlaylist(nomeUsuario)
+        .subscribe((data: Playlist) => {
+          this.playlist = data;
+          this.musicasPlaylist = this.fetchSongsFromPlaylist(data.playlistMusicas);
+        });
     this.selectedSongs = [];
   }
 
@@ -55,7 +60,10 @@ export class HomeComponent implements OnInit {
     else
       this.toastr.warning("A música desejada não foi selecionada ou já se encontra na playlist.", "Adicionando músicas");
     this.safelyAddSongsToPlaylist();
-    this.musicService.putPlaylist();
+    this.musicService.putPlaylist(this.playlist.id)
+      .subscribe((data: any) => {
+        console.log("Put status: ",data.status);
+      });
     this.selectedSongs = [];
   }
 
@@ -65,8 +73,13 @@ export class HomeComponent implements OnInit {
       return;
     let index = this.musicasPlaylist.indexOf(this.enqueuedDeletion);
     
-    if (index >= 0)
+    if (index >= 0) {
       this.musicasPlaylist.splice(index, 1);
+      this.musicService.deleteFromPlaylist(this.playlist.id, this.enqueuedDeletion.id)
+          .subscribe((data:any) => {
+            console.log("Delete status: ",data.status)
+          });
+    }
 
     this.enqueuedDeletion = undefined;
   }
@@ -79,16 +92,14 @@ export class HomeComponent implements OnInit {
   }
 
   private safelyAddSongsToPlaylist() {
-    // VERIFICAR SE MUSICA EXISTE NA PLAYLIST
-    // SE SIM => PULAR
-    // SE NAO => ADD
+
     this.selectedSongs.forEach((musica: Musica) => {
       if (this.musicasPlaylist.indexOf(musica) < 0)
         this.musicasPlaylist.push(musica);
     });
   }
 
-  private fetchSongsFromPlaylist(playlistSongs: Musica[]) {
+  private fetchSongsFromPlaylist(playlistSongs: any) {
     let ret: Musica[] = [];
     playlistSongs.forEach(data => {
       ret.push(data.musica);
