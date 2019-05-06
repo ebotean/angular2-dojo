@@ -1,6 +1,6 @@
 {
   "name": "my-music",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -21,12 +21,16 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
-    "bootstrap": "^4.1.1",
+    "bootstrap": ">=4.3.1",
     "core-js": "^2.4.1",
+    "extend": ">=3.0.2",
     "guid": "0.0.12",
     "guid-typescript": "^1.0.7",
-    "jquery": "^3.3.1",
+    "hoek": ">=4.2.1",
+    "jquery": ">=3.4.0",
+    "lodash": ">=4.17.11",
     "rxjs": "^5.5.6",
+    "tar": ">=4.4.2",
     "toastr": "^2.1.4",
     "zone.js": "^0.8.19"
   },
@@ -48,6 +52,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.5.3"
+    "typescript": "~2.5.3",
+    "webpack-dev-server": ">=3.1.11"
   }
 }
